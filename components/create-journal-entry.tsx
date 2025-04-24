@@ -11,20 +11,29 @@ export default function CreateJournalEntry() {
     formRef.current?.reset();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+    if (isCmdOrCtrl && e.key === "Enter") {
+      e.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  };
+
   return (
-    <form action={handleSubmitAction}>
+    <form ref={formRef} action={handleSubmitAction} className="flex">
       <textarea
         name="text"
-        className="w-full p-3 border-2 rounded resize-none"
+        className="w-full p-3 border-1 rounded resize-none"
         rows={3}
         placeholder="What have you done today..."
+        onKeyDown={handleKeyDown}
         required
       />
       <button
         type="submit"
-        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="px-1 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
-        Save Entry
+        Save
       </button>
     </form>
   );
